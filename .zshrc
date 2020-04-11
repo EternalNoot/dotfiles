@@ -102,8 +102,8 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-#alias ohmyzsh="nano ~/.oh-my-zsh"
-alias zshconfig="nano ~/.zshrc"
+#alias ohmyzsh="vim ~/.oh-my-zsh"
+alias zshconfig="vim ~/.zshrc"
 alias ls="ls -a --color=auto"
 alias cls="clear"
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
