@@ -13,7 +13,7 @@ import os
 import subprocess
 
 from libqtile.config import Key, Screen, Group, Drag, Click
-from libqtile.command import lazy
+from libqtile.lazy import lazy
 from libqtile import layout, bar, widget, hook
 
 from typing import List  # noqa: F401
@@ -53,6 +53,7 @@ keys = [
     Key([mod, "mod1"], "e", lazy.spawn(terminal )),
     Key([mod, "mod1"], "m", lazy.spawn("./.config/qtile/wallpaper.sh")),
     Key([mod, "mod1"], "n", lazy.spawn("networkmanager_dmenu -c -l 20")),
+    Key([mod, "mod1"], "i", lazy.spawn(terminal+" -e nvim")),
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout()),
@@ -152,7 +153,6 @@ screens = [
                     filename = "~/.config/qtile/blackOnWhite.png",
                 ),
                 widget.WindowName(),
-                # widget.Cpu(),
                 widget.Image(
                     filename = "~/.config/qtile/whiteOnBlack.png",
                 ),
@@ -166,22 +166,24 @@ screens = [
                 widget.Image(
                     filename = "~/.config/qtile/blackOnWhite.png",
                 ),                
+                widget.CPU(
+                    format = "{load_percent}%",
+                ),
+                widget.Sep(),
                 widget.Memory(
-                    fmt = '{MemUsed}M',
+                    format = "{MemUsed}M",
                     update_interval = 2.0,
                 ),
                 widget.Sep(),
                 widget.Net(
                     interface = "wlp4s0",
+                    format = '{down} ↓↑ {up}',
                 ),
                 widget.Sep(),
-                widget.Pacman(
+                widget.CheckUpdates(
                     execute = terminal+" -e sudo pacman -Syu",
-                    #fmt = "{updates} 🛈",
+                    display_format = "{updates} 🛈",
                     update_interval = 60,
-                ),
-                widget.TextBox(
-                    text= "🛈"
                 ),
                 widget.Sep(
                     padding = 5
