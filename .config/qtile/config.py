@@ -11,6 +11,8 @@
 
 import os
 import subprocess
+import re
+import socket
 
 from libqtile.config import Key, Screen, Group, Drag, Click
 from libqtile.lazy import lazy
@@ -43,7 +45,7 @@ keys = [
     Key([mod], "n", lazy.layout.normalize()),
     Key([mod], "o", lazy.layout.maximize()),
     Key([mod, "shift"], "space", lazy.layout.flip()),
-    
+
     #Spawn Applications
     Key([mod], "Return", lazy.spawn(terminal)),
     Key([mod], "space", lazy.spawn("dmenu_run -c -l 20")),
@@ -61,7 +63,7 @@ keys = [
 
     # System controls
     Key([mod, "control"], "r", lazy.restart()),
-    Key([mod, "control"], "q", lazy.shutdown()),    
+    Key([mod, "control"], "q", lazy.shutdown()),
 
     # backlight control
     Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight -inc 5")),
@@ -91,13 +93,13 @@ groups = [
         "d",
         label="SYS",
         layout = "monadtall"
-        ),    
+        ),
     Group(
         "f",
         label="MUS",
         layout = "monadtall"
         ),
-]   
+]
 
 # CHANGE GROUPS
 
@@ -148,7 +150,7 @@ screens = [
                 widget.currentlayout.CurrentLayout(
                     background = 'FFFFFF',
                     foreground = '000000',
-                ),                
+                ),
                 widget.Image(
                     filename = "~/.config/qtile/blackOnWhite.png",
                 ),
@@ -165,9 +167,13 @@ screens = [
                 ),
                 widget.Image(
                     filename = "~/.config/qtile/blackOnWhite.png",
-                ),                
+                ),
                 widget.CPU(
                     format = "{load_percent}%",
+                ),
+                widget.Sep(),
+                widget.ThermalSensor(
+                    tag_sensor = 'Core 0',
                 ),
                 widget.Sep(),
                 widget.Memory(
@@ -195,7 +201,7 @@ screens = [
                 widget.Image(
                     filename = "~/.config/qtile/whiteOnBlack.png",
                 ),
-                widget.Battery(  
+                widget.Battery(
                     battery = 'BAT0',
                     charge_char = '🡅',
                     discharge_char = '🡇',
@@ -220,7 +226,7 @@ screens = [
                     unknown_char = '🡄',
                     full_char = '🗲',
                     empty_char = '🕱',
-                    fontsize = 14, 
+                    fontsize = 14,
                     padding = 5,
                     format = '{percent:2.0%} {char}',
                     update_interval = 30,
